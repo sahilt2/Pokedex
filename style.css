@@ -7,6 +7,9 @@
   padding: 0;
   box-sizing: border-box;
 }
+html {
+  scroll-behavior: smooth;
+}
 h1 {
   text-align: center;
   margin: 2rem 2rem;
@@ -14,7 +17,6 @@ h1 {
 
 body {
   font-family: "Roboto Mono", monospace;
-
   background-color: black;
   color: #ff0000;
   font-family: "Pokemon Solid", sans-serif;
@@ -50,21 +52,28 @@ input {
   align-items: center;
 }
 
-.types button {
+.type {
   display: inline-block;
   background: none;
   border: none;
   cursor: pointer;
-}
-.types img {
   height: 2rem;
   width: 2rem;
 }
+.type img {
+  height: 2rem;
+  width: 2rem;
+}
+.type img:hover {
+  transform: scale(1.1);
+}
+
 .displayItem {
   width: 250px;
   height: 350px;
-  background-color: rgb(65, 114, 192);
+  background-image: linear-gradient(to right, #434343 0%, black 100%);
   border: solid rgb(255, 255, 255) 2px;
+  box-shadow: #00000026 0px 5px 15px 0px;
   margin: 1rem;
   border-radius: 5px;
   display: flex;
@@ -74,11 +83,52 @@ input {
   justify-content: space-evenly;
   transition: all 300ms;
   position: relative;
+  color: #ffffff;
 }
-
-#pokemon-img {
+.displayItem:hover {
+  background: linear-gradient(
+    -45deg,
+    #cc0000,
+    #ff0000,
+    #ffde00,
+    #b3a125,
+    #3b4cca
+  );
+  animation: gradient 0.5s ease;
+  background-size: 400% 400%;
+  z-index: 100;
+}
+@keyframes gradient {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 100%;
+  }
+}
+.poke-pics {
   width: 200px;
   height: 200px;
+  padding: 1rem;
+  border-radius: 5px;
+}
+
+#pokemon-img:hover {
+  animation: float 1s infinite alternate;
+}
+
+@keyframes float {
+  from {
+    will-change: unset;
+    transform: translateY(-10px);
+  }
+  to {
+    will-change: transform;
+    transform: translateY(-30px);
+  }
 }
 
 .types {
@@ -118,8 +168,28 @@ img {
   color: #ffffff;
   font-family: "Roboto Mono", monospace;
   width: 5rem;
-  transition: all 300ms;
+  transition: all 0.3s;
 }
 .generations button:hover {
   transform: scale(1.1);
+}
+
+#scrollTop {
+  display: none;
+  position: fixed;
+  bottom: 1rem;
+  right: 1rem;
+}
+
+@media screen and (max-width: 600px) {
+  .generations {
+    display: inline-block;
+    margin: 1rem 0 1rem 3rem;
+  }
+  .generations button {
+    margin: 0.2rem;
+  }
+  .types {
+    margin: 1rem 1rem 1rem 2rem;
+  }
 }

@@ -1,7 +1,8 @@
 
-const button = document.querySelectorAll('button');
+const button = document.querySelectorAll('.generations button');
 const input = document.querySelector('#search');
 const typeBtn = document.querySelectorAll('.type')
+const scrollBtn = document.querySelector('#scrollTop')
 
 
 let pokemon = [];
@@ -21,8 +22,8 @@ let generations = [
 
 const dataList = (data) => {
     document.querySelector('.card').innerHTML = data.map((item)=>{
-        return `<div class = "displayItem"><div>${item.types.map(type=>`<img id="type-icon" src="https://raw.githubusercontent.com/duiker101/pokemon-type-svg-icons/5781623f147f1bf850f426cfe1874ba56a9b75ee/icons/${type.type.name}.svg" alt="${type.type.name}"/>`)}</div><div><p>${item.id}</p></div> <img id = "pokemon-img" src="${item.sprites.other.dream_world.front_default}"/>
-    <p>${item.name}</p>  </div> `
+        return `<div class = "displayItem"><div>${item.types.map(type=>`<img id="type-icon" src="https://raw.githubusercontent.com/duiker101/pokemon-type-svg-icons/5781623f147f1bf850f426cfe1874ba56a9b75ee/icons/${type.type.name}.svg" alt="${type.type.name}"/>`)} <p># ${item.id}</p></div><div class = "poke-pics"> <img id = "pokemon-img" src="${item.sprites.other.dream_world.front_default}"/></div>
+    <div><p>${item.name}</p> </div> </div> `
     }).join('')
 }
 
@@ -38,8 +39,7 @@ const fetchData = (generations) => {
     pokemon = res;
         dataList(pokemon);
        })
-         //dataList(json.results); 
-console.log(json.results)
+         //dataList(json.results);
 });
 
 }
@@ -49,17 +49,10 @@ button.forEach((button,i)=>{
       
 
 
-
- 
-
-
-
-
-
 const pokemonSearch = (e) => {
    const searchValue = e.target.value.toLowerCase();
 let filterList = [];
-if( searchValue.length >0){
+if(searchValue.length >0){
    filterList = pokemon.filter((item) => {
     return item.name.toLowerCase().includes(searchValue);
    });
@@ -75,7 +68,7 @@ const filterByType = (typesPok) =>{
     let filterList =[];
     if(pokemon.length >0 && typesPok.length > 0){
         filterList = pokemon.filter((item) => {
-         return item.types.some((type)=> type.type.name === typesPok);
+        return item.types.some((type)=> type.type.name === typesPok);
         });
         dataList(filterList)
     }
@@ -85,16 +78,34 @@ const filterByType = (typesPok) =>{
 }
 
 typeBtn.forEach((btn) =>{
-    btn.addEventListener("click", () =>{
-const typesName = btn.textContent.toLowerCase();
-        filterByType(typesName);
+    btn.addEventListener('click', (e) =>{
+      const typesName = e.target.id;
+       filterByType(typesName);
     })
+    
 })
 
+window.onscroll=function() {scrollFunction()};
+
+const scrollFunction=()=>{
+    if(document.body.scrollTop>800 || document.documentElement.scrollTop>800){
+        scrollBtn.style.display = 'block';
+    }
+    else {
+        scrollBtn.style.display = 'none';
+    }
+}
+
+const scrollToTop = () =>{
+document.body.scrollTop = 0;
+document.documentElement.scrollTop = 0;
+}
 
 
 
-input.addEventListener('input', pokemonSearch);
+
+scrollBtn.addEventListener('click',scrollToTop)
+input.addEventListener('keyup', pokemonSearch);
 
 
 
